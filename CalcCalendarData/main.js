@@ -14,31 +14,38 @@ const getCalendarEvents = () => {
     const startTime = new Date(year + '/' + month + '/1 00:00:00');
     const endTime = new Date(year + '/' + month + '/31 00:00:00');
 
-    const events = calendar.getEvents(startTime, endTime);
-
-    const filteredEvents = events.filter((event) => event.getTitle().indexOf(KEY_WORD) > -1);
-    console.log(filteredEvents.map(
-        (event) => 
-            (
-                new Object(
-                    {
-                        title: event.getTitle(),
-                        date: (
-                                (event) => {
-                                    const date = new Date(event.getStartTime());
-                                    return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
-                                }
-                                )(event),
-                        dur: convMillisecondToMinute(event.getEndTime() - event.getStartTime()),
-                        description: event.getDescription()
-                    }
-                )
+    calendar
+    .getEvents(startTime, endTime)
+    .filter((event) => event.getTitle().indexOf(KEY_WORD) > -1)
+    .map(
+    (event) => 
+        (
+            new Object(
+                {
+                    title: event.getTitle(),
+                    date: (
+                            (event) => {
+                                const date = new Date(event.getStartTime());
+                                return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+                            }
+                            )(event),
+                    dur: convMillisecondToMinute(event.getEndTime() - event.getStartTime()),
+                    description: event.getDescription()
+                }
             )
         )
     );
     //console.log(event.getTitle() + event.getStartTime() + event.getEndTime() + event.getDescription()
 
 };
+
+const durSum = () => {
+    let sum = 0;
+    const add = (dur) => {
+        return sum += dur;
+    };
+    return add;
+}
 
 const getTargetMonth = (month) => {
     if(month == 0){
