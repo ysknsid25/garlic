@@ -3,6 +3,7 @@ const main = () => {
 };
 
 const CALENDAR_ID = ''; //カレンダーID
+const KEY_WORD = '#hoge';
 
 const getCalendarEvents = () => {
 
@@ -15,7 +16,27 @@ const getCalendarEvents = () => {
 
     const events = calendar.getEvents(startTime, endTime);
 
-    events.map((event) => console.log(event.getTitle()));
+    const filteredEvents = events.filter((event) => event.getTitle().indexOf(KEY_WORD) > -1);
+    console.log(filteredEvents.map(
+        (event) => 
+            (
+                new Object(
+                    {
+                        title: event.getTitle(),
+                        date: (
+                                (event) => {
+                                    const date = new Date(event.getStartTime());
+                                    return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+                                }
+                                )(event),
+                        dur: convMillisecondToMinute(event.getEndTime() - event.getStartTime()),
+                        description: event.getDescription()
+                    }
+                )
+            )
+        )
+    );
+    //console.log(event.getTitle() + event.getStartTime() + event.getEndTime() + event.getDescription()
 
 };
 
@@ -32,3 +53,5 @@ const getTargetYear = (year, month) => {
     }
     return year;
 };
+
+const convMillisecondToMinute = (milliSecond) => milliSecond / 60000;
