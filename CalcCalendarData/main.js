@@ -32,6 +32,21 @@ const main = () => {
 
 };
 
+//特定のチャットルームに通知を送信します
+const notify = (notifyText) => {
+    //チャットルームのURLを指定する
+    const message = { text: notifyText };
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+        },
+        payload: JSON.stringify(message),
+    };
+
+    UrlFetchApp.fetch(WEBHOOK_URL, options);
+};
+
 const getCalendarEvents = () => getAllEvents().reduce((pre,current) => {pre.push(...current);return pre},[]).sort(function(a, b){return sortDateAsc(a, b)});
 
 const sortDateAsc = (a, b) => {
