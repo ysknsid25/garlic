@@ -30,12 +30,14 @@ const main = () => {
 
     inputSheet.getRange(8, 4).setValue(inputSheet.getRange(45, 9).getValue());
 
+    notify();
+
 };
 
 //特定のチャットルームに通知を送信します
-const notify = (notifyText) => {
+const notify = () => {
     //チャットルームのURLを指定する
-    const message = { text: notifyText };
+    const message = { text: textmessage };
     const options = {
         method: "POST",
         headers: {
@@ -131,8 +133,7 @@ const getTargetMonth = (month) => {
     if(month == 0){
         return 12;
     }
-    //return month;
-    return 3;
+    return month;
 };
 
 const getTargetYear = (year, month) => {
